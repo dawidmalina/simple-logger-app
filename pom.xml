@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>pl.malina</groupId>
+    <artifactId>simple-logger-app</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <properties>
+        <slf4jVersion>1.7.21</slf4jVersion>
+        <logbackVersion>1.1.8</logbackVersion>
+        <logstashVersion>4.8</logstashVersion>
+        <mavenJarVersion>3.0.2</mavenJarVersion>
+        <dependency.maven.plugin.version>2.8</dependency.maven.plugin.version>
+        <docker.maven.plugin.version>0.4.13</docker.maven.plugin.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4jVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logbackVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstashVersion}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker.maven.plugin.version}</version>
+                <configuration>
+                    <skipDockerBuild>false</skipDockerBuild>
+                    <imageName>dawidmalina/${project.artifactId}:${project.version}</imageName>
+                    <maintainer>Dawid Malinowski d.malinowski@oberthur.com</maintainer>
+                    <baseImage>oberthur/docker-generic-app:jdk8_8.112.15_1</baseImage>
+                    <user>app</user>
+                    <entryPoint>
+                        ["java"]
+                    </entryPoint>
+                    <cmd>
+                        ["-jar","/opt/app/${project.artifactId}-${project.version}.jar","-d"]
+                    </cmd>
+                    <resources>
+                        <resource>
+                            <targetPath>/opt/app</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.artifactId}-${project.version}.jar</include>
+                        </resource>
+                        <resource>
+                            <targetPath>/opt/app/lib</targetPath>
+                            <directory>${project.build.directory}/lib</directory>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${dependency.maven.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <excludeScope>system</excludeScope>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${mavenJarVersion}</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>pl.malina.SimpleLoggerApp</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

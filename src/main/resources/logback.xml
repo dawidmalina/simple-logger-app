@@ -1,0 +1,20 @@
+<configuration scan="true">
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- https://github.com/logstash/logstash-logback-encoder -->
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+    </appender>
+
+    <!-- <logger name="com.brimarx" level="${LOGLEVEL_APP}" /> -->
+    <!-- <logger name="transaction-logs" level="${LOGLEVEL_APP}" /> -->
+
+    <appender name="STDOUT-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT" />
+    </appender>
+
+    <root level="INFO">
+<!--         <appender-ref ref="STDOUT-ASYNC" /> -->
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>
