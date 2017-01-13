@@ -5,7 +5,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.malina.nasted.NastedLogger1;
+import pl.malina.audit.SimpleAuditLogger;
+import pl.malina.nasted.NastedLogger;
 
 public class SimpleLoggerApp {
 
@@ -31,12 +32,13 @@ public class SimpleLoggerApp {
                     // 30%
                 } else if (randomNum >= 60 && randomNum < 80) {
                     logger.warn("This is wird waring");
+                    SimpleAuditLogger.printAuditLog();
                     // 20%
                 } else if (randomNum >= 80 && randomNum < 90) {
                     logger.error("This is nasty errors");
                     // 10%
                 } else if (randomNum >= 90) {
-                    NastedLogger1.printStack1();
+                    NastedLogger.printStack();
                 }
 
             } catch (InterruptedException e) {
