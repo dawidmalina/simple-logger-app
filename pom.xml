@@ -48,7 +48,7 @@
                         ["java"]
                     </entryPoint>
                     <cmd>
-                        ["-jar","/opt/app/${project.artifactId}-${project.version}.jar","-d"]
+                        ["-Dlogback.configurationFile=/opt/app/config/logback-json.xml","-jar","/opt/app/${project.artifactId}-${project.version}.jar","-d"]
                     </cmd>
                     <resources>
                         <resource>
@@ -59,6 +59,10 @@
                         <resource>
                             <targetPath>/opt/app/lib</targetPath>
                             <directory>${project.build.directory}/lib</directory>
+                        </resource>
+                        <resource>
+                            <targetPath>/opt/app/config</targetPath>
+                            <directory>${project.basedir}/src/main/resources</directory>
                         </resource>
                     </resources>
                 </configuration>
