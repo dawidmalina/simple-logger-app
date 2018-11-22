@@ -59,8 +59,8 @@
                     <skipDockerBuild>false</skipDockerBuild>
                     <imageName>dawidmalina/${project.artifactId}:${project.version}</imageName>
                     <maintainer>Dawid Malinowski d.malinowski@oberthur.com</maintainer>
-                    <baseImage>oberthur/docker-generic-app:jdk8_8.112.15_1</baseImage>
-                    <user>app</user>
+                    <baseImage>openjdk:8-jre-slim</baseImage>
+                    <user>root</user>
                     <entryPoint>
                         ["java"]
                     </entryPoint>
