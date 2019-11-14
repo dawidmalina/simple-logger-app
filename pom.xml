@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>pl.malina</groupId>
     <artifactId>simple-logger-app</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
 
     <properties>
         <slf4jVersion>1.7.21</slf4jVersion>
@@ -14,6 +14,9 @@
         <docker.maven.plugin.version>0.4.13</docker.maven.plugin.version>
         <prometheus.simpleclient.version>0.0.20</prometheus.simpleclient.version>
         <jetty.servlet.version>9.4.0.v20161208</jetty.servlet.version>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
